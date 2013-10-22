@@ -86,16 +86,45 @@ namespace :generate do
 end
 
 namespace :db do
-  desc "Create the database at #{DB_NAME}"
-  task :create do
-    puts "Creating database #{DB_NAME} if it doesn't exist..."
-    exec("createdb #{DB_NAME}")
+  def config
+    db = URI.parse(ENV['DATABASE_URL'])
+    config = {
+      :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
+      :host     => db.host,
+      :port     => db.port,
+      :username => db.user,
+      :password => db.password,
+      :database => db.path[1..-1],
+      :encoding => 'utf8'
+    }
   end
 
-  desc "Drop the database at #{DB_NAME}"
+  desc "Create the database at #{config[:database]}"
+  task :create do
+    puts "Creating database #{config[:database]} if it doesn't exist..."
+
+    ActiveRecord::Base.establish_connection(config.merge(
+      :database => 'postgres',
+      :schema_search_path => 'public'
+    ))
+
+    begin
+      ActiveRecord::Base.connection.create_database(config[:database])
+    rescue ActiveRecord::ActiveRecordError => e
+    end
+
+    ActiveRecord::Base.establish_connection(config)
+  end
+
+  desc "Drop the database at #{config[:database]}"
   task :drop do
-    puts "Dropping database #{DB_NAME}..."
-    exec("dropdb #{DB_NAME}")
+    puts "Dropping database #{config[:database]}..."
+
+    ActiveRecord::Base.establish_connection(config.merge(
+      :database => 'postgres',
+      :schema_search_path => 'public'
+    ))
+    ActiveRecord::Base.connection.drop_database(config[:database])
   end
 
   desc "Migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
