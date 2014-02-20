@@ -8,8 +8,8 @@
     </tr>
   </thead>
   <tbody>
-    <% @contacts.each do |contact| %>
-      <%= erb :_contact_row, layout: false, locals: {contact: contact} %>
+    <% @contacts.each do |c| %>
+      <%= erb :_contact_row, layout: false, locals: {contact: c} %>
     <% end %>
   </tbody>
 </table>
