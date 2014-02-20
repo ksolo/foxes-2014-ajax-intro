@@ -1,9 +1,25 @@
-<div class="container">
+<div class="form">
   <h1>New Contact</h1>
   <form method="POST" action="/contacts">
-    <label for="contact_first_name">Contact First Name</label>
-    <input type="text" name="contact[first_name]" id="contact_first_name">
-    <input type="submit">
+    <div class="form-control">
+      <label for="contact_first_name">First Name</label>
+      <input type="text" name="contact[first_name]" id="contact_first_name">
+    </div>
+    <div class="form-control">
+      <label for="contact_last_name">Last Name</label>
+      <input type="text" name="contact[last_name]" id="contact_last_name">
+    </div>
+    <div class="form-control">
+      <label for="contact_email">Email</label>
+      <input type="email" name="contact[email]" id="contact_email">
+    </div>
+    <div class="form-control">
+      <label for="contact_phone">Phone</label>
+      <input type="tel" name="contact[phone]" id="contact_phone">
+    </div>
+    <div class="form-control">
+      <input type="submit">
+    </div>
   </form>
 </div>
 
