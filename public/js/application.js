@@ -1,7 +1,21 @@
-$(document).ready(function() {
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
+$(function(){
+  // Add the form to the page with AJAX
+  // Select the new-contact link and bind click event
+  $('#new-contact').click(function(event){
+    // Stop the browser from following the link
+    event.preventDefault();
 
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+    // Hide the link
+    $(this).hide();
+
+    // store the href of the link
+    var url = $(this).attr('href');
+
+    // request the contact form
+    $.get(url, function(serverResponse, status, request){
+      //add the contact form to the page
+      $('.container').append(serverResponse);
+    });
+  });
+
 });

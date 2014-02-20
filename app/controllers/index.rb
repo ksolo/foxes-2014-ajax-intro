@@ -5,7 +5,9 @@ get '/contacts' do
 end
 
 get '/contacts/new' do
-  erb :new
+  # only render the layout if the request is
+  # from the browser
+  erb :new, layout: !request.xhr?
 end
 
 get '/contacts/:id' do
