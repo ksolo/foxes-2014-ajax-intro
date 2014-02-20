@@ -24,7 +24,13 @@ end
 post '/contacts' do
   @contact = Contact.new(params[:contact])
   if @contact.save
-    redirect to '/contacts'
+    # is this a ajax request
+    if request.xhr?
+      # only render the row that needs to be added to the table
+      erb :_contact_row, layout: false, locals: {contact: @contact}
+    else
+      redirect to '/contacts'
+    end
   else
     erb :new
   end

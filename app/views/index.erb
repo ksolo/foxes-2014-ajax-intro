@@ -9,12 +9,7 @@
   </thead>
   <tbody>
     <% @contacts.each do |contact| %>
-      <tr>
-        <td><%= contact.first_name %></td>
-        <td><%= contact.last_name %></td>
-        <td><%= contact.email %></td>
-        <td><%= contact.phone %></td>
-      </tr>
+      <%= erb :_contact_row, layout: false, locals: {contact: contact} %>
     <% end %>
   </tbody>
 </table>
